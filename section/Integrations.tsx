@@ -10,7 +10,6 @@ import {
 import { FaCode, FaEthereum } from "react-icons/fa";
 import { TbBrandAsana } from "react-icons/tb";
 import Marquee from "@/components/ui/marquee";
-
 type IntegrationItem = {
     name: string;
     icon: IconType;
@@ -58,7 +57,7 @@ const integrations: IntegrationItem[] = [
 export type IntegrationsType = typeof integrations
 export default function Integrations() {
     return (
-        <section className="py-24 overflow-hidden">
+        <section id="integrations" className="py-24 overflow-hidden">
             <div className="container">
                 <div className="grid lg:grid-cols-2 items-center lg:gap-16">
                     <div className="">

@@ -44,7 +44,7 @@ const features = [
  
 
 export default function Features() {
-    return   <section className="lg:h-[50rem] w-full bg-black bg-dot-white/[0.3] relative flex items-center justify-center py-24">
+    return   <section  id="features" className="lg:h-[50rem] w-full bg-black bg-dot-white/[0.3] relative flex items-center justify-center py-24">
         <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black/80 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
         <div className="container">
             <div className="flex justify-center">
