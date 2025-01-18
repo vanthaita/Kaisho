@@ -1,19 +1,22 @@
-import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function FaqCard({ question, answer }: {
+interface FaqCardProps {
     question: string;
     answer: string;
-}) {
-    const [isOpen, setIsOpen] = useState(false);
+    isOpen: boolean;
+    onToggle: () => void;
+}
+
+export default function FaqCard({ question, answer, isOpen, onToggle }: FaqCardProps) {
+
 
     return (
         <div className="bg-neutral-900 border border-white/10 rounded-3xl p-6 space-y-4">
             <div className="flex items-center justify-between">
                 <h3 className="text-xl font-semibold text-white w-full">{question}</h3>
-                <button 
+                <button
                     className="text-lime-400 text-3xl focus:outline-none"
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={onToggle}
                 >
                     {isOpen ? 'x' : '+'}
                 </button>

@@ -1,16 +1,15 @@
-    import Link from "next/link";
+import Link from "next/link";
 const navlinks = [
-    {label: "Home", href: "#"},
-    {label: "Features", href: "#features"},
-    {label: "Integrations", href: "#integrations"},
-    {label: "FAQs", href: "#faqs"}
+    { label: "Home", href: "/" },
+    { label: "Features", href: "#features" },
+    { label: "Integrations", href: "#integrations" },
+    { label: "FAQs", href: "#faqs" },
 ];
-
 
 const Navbar = () => {
 
     return (
-        <section className="py-4 lg:py-8">
+        <section className="py-4 lg:py-8" >
             <div className="container max-w-5xl">
                 <div className="grid grid-cols-2 lg:grid-cols-3  p-2 px-4 md:pr-2 items-center">
                     <div className="flex justify-center">
@@ -20,7 +19,7 @@ const Navbar = () => {
                     <div className="lg:flex justify-center items-center hidden">
                         <nav className="flex gap-6 font-medium">
                             {navlinks.map(link => (
-                                <Link href={link.label} key={link.label}>
+                                <Link href={link.href} key={link.label}>
                                     {link.label}
                                 </Link>
                             ))}

@@ -56,9 +56,9 @@ export default function Hero() {
                             { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/3408.png", alt: "USDC" },
                             { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/20947.png", alt: "SUI" },
                             { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/21794.png", alt: "APT" },
-                            { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/825.png", alt: "USDT" },
-                            { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/29679.png", alt: "SCA" },
-                            { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/34611.png", alt: "SEND" },
+                            // { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/825.png", alt: "USDT" },
+                            // { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/29679.png", alt: "SCA" },
+                            // { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/34611.png", alt: "SEND" },
                             { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/1.png", alt: "BTC" },
                             { src: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png", alt: "ETH" },
                         ].map((token, index) => (
