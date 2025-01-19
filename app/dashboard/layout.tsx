@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import DappKitProvider from '../../providers/DappKitProvider'
+import Sidebar from "./components/Sidebar";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -24,10 +25,12 @@ export default function DashBoardLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased tex-white bg-neutral-950`}
       >
         <DappKitProvider>
-          {children}
+          <Sidebar>
+            {children}
+          </Sidebar>
         </DappKitProvider>
       </body>
     </html>
