@@ -2,7 +2,7 @@
 'use client'
 import React from 'react'
 import { useCurrentAccount, useCurrentWallet } from '@mysten/dapp-kit';
-import { shortenEthAddress } from '@/app/utils/shortenEthAddress';
+import { shortenEthAddress } from '@/utils/shortenEthAddress';
 const AccountModel = () => {
     const currentAccount = useCurrentAccount();
     const { connectionStatus } = useCurrentWallet();

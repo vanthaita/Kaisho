@@ -2,10 +2,11 @@
 import React, { useEffect } from 'react';
 import { ConnectButton ,useCurrentWallet} from '@mysten/dapp-kit';
 import { useRouter } from 'next/navigation';
- 
 const SignInPage = () => {
     const router = useRouter();
     const { connectionStatus } = useCurrentWallet();
+
+
     useEffect(() => {
         if (connectionStatus === 'connected') {
           console.log("Connected Wallet, redirecting...");
