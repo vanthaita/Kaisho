@@ -16,7 +16,7 @@ const AccountModel = () => {
                 />
             </div>
             <div>
-                {shortenEthAddress(currentAccount?.address)}
+                <h1 className='text-white'>{shortenEthAddress(currentAccount?.address)}</h1>
                 <p className='text-lime-400'>{connectionStatus}</p>
             </div>
 

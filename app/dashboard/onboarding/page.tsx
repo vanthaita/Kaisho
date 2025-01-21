@@ -9,15 +9,17 @@ import { User, ImageIcon, UploadIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client';
-import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-kit';
+import { useSignAndExecuteTransaction, useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
-const packageObjectId = process.env.NEXT_PUBLIC_SUI_PACKAGE_ID ?? '';
-const KaiShoObjectId = process.env.NEXT_PUBLIC_POOL_OBJECT_ID ?? '';
+
+
+const packageObjectId = process.env.NEXT_PUBLIC_SUI_PACKAGE_ID ?? '0xf3c022319d87c668287e709d58c5c23486c4a0cd7d92851c41a447a814f51a64';
+const KaiShoObjectId = process.env.NEXT_PUBLIC_POOL_OBJECT_ID ?? '0xa9ac2dd0b8b0f4bea402004108ec3da917ba42d3c46f6681b95bebbdd3de3289';
 
 
 const Onboarding = () => {
     const [username, setUsername] = useState("");
-    const [imageUrl, setImageUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnQxE9Qwzoz_W4RlSV0v1Fs3NA0601JBpfeA&s");
     const [usernameError, setUsernameError] = useState("");
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,11 +28,37 @@ const Onboarding = () => {
     const [suiClient, setSuiClient] = useState<SuiClient | null>(null);
     const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
     const account = useCurrentAccount();
+    const { data: suipayObject, isLoading: isSuipayLoading } = useSuiClientQuery('getObject', {
+        id: KaiShoObjectId,
+        options: {
+            showContent: true,
+        }
+    });
+    useEffect(() => {
+        console.log("object: ", suipayObject);
+        if (suipayObject && suipayObject.data && suipayObject.data.content) {
+            const content = suipayObject.data.content;
+            if (content.dataType === 'moveObject' && content.type === `${packageObjectId}::suipay::Suipay`) {
+                const fields = content.fields as any;
+                console.log("Fields: ",fields);
+                if (fields.usernames && fields.addresses) {
+                    // setUsernames(fields.usernames);
+                    // setAddresses(fields.addresses);
 
+                }
+            }
+        }
+    }, [suipayObject]);
     useEffect(() => {
         const client = new SuiClient({ url: getFullnodeUrl('testnet') });
         setSuiClient(client);
+        console.log(packageObjectId, KaiShoObjectId);
+
+        
     }, []);
+
+    
+
 
     const handleAddUserName = async () => {
          if (usernameError) {
@@ -55,17 +83,18 @@ const Onboarding = () => {
                 console.error('Sui client not initialized');
                 return;
             }
-
             const txb = new TransactionBlock();
             txb.moveCall({
-                target: `${packageObjectId}::suipay::add_user`,
-                arguments: [
-                    txb.pure(username),
-                    txb.pure(account.address),
-                    txb.object(KaiShoObjectId),
-                    txb.pure(imageUrl),
-                ]
+                 target: `${packageObjectId}::suipay::add_user`,
+                 arguments: [
+                     txb.pure(username), 
+                     txb.pure(account.address), 
+                     txb.object(KaiShoObjectId),
+                    txb.pure(imageUrl), 
+                ],
             });
+
+
             const serializedTransaction = await txb.serialize();
             signAndExecuteTransaction(
                 {

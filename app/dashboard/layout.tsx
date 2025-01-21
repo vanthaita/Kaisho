@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { DappKitProvider } from "@/_providers/DappKitProvider";
-import Sidebar from "@/components/dashboard/Sidebar";
+import { DashBoardProvider } from "@/_providers/Dashboard.provider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,9 +28,9 @@ export default function DashBoardLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased tex-white bg-neutral-950`}
       >
         <DappKitProvider>
-          <Sidebar>
-            {children}
-          </Sidebar>
+            <DashBoardProvider>
+              {children}
+            </DashBoardProvider>
         </DappKitProvider>
       </body>
     </html>
