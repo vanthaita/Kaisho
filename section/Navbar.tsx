@@ -13,7 +13,7 @@ const Navbar = () => {
             <div className="container max-w-5xl">
                 <div className="grid grid-cols-2 lg:grid-cols-3  p-2 px-4 md:pr-2 items-center">
                     <div className="flex justify-center">
-                        <h1 className="font-extrabold text-[1.7rem] leading-[3rem] cursor-pointer mr-10">Kaisho</h1>
+                        <h1 className="font-extrabold text-[1.7rem] leading-[3rem] cursor-pointer mr-10">Kaisho Pay</h1>
                     </div>
 
                     <div className="lg:flex justify-center items-center hidden">

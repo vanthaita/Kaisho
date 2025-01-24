@@ -1,18 +1,29 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import React, { useEffect } from 'react';
-import { ConnectButton ,useCurrentWallet} from '@mysten/dapp-kit';
+import { ConnectButton, useCurrentAccount, useCurrentWallet } from '@mysten/dapp-kit';
 import { useRouter } from 'next/navigation';
+import { useOnChainDataContext } from '@/app/context/OnChainDataContext';
+
 const SignInPage = () => {
     const router = useRouter();
     const { connectionStatus } = useCurrentWallet();
-
-
+    const { getUserData } = useOnChainDataContext();
+    const account = useCurrentAccount();
     useEffect(() => {
-        if (connectionStatus === 'connected') {
-          console.log("Connected Wallet, redirecting...");
-          router.push('/dashboard/onboarding');
+        if (connectionStatus === 'connected' && account?.address) {
+            console.log("Connected Wallet, checking for account...");
+            const userData = getUserData(account?.address);
+            if (userData) {
+                console.log("User has an account, redirecting to dashboard...");
+                router.push('/dashboard'); 
+            } else {
+                console.log("User does not have an account, redirecting to onboarding...");
+                router.push('/dashboard/onboarding');
+            }
         }
-    }, [connectionStatus, router]);
+    }, [connectionStatus, account?.address, getUserData, router]);
+
     return (
         <section className="h-screen w-full bg-black bg-dot-white/[0.3] relative flex items-center justify-center">
             <div className="absolute pointer-events-none inset-0 flex items-center justify-center bg-black/80 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
@@ -32,11 +43,10 @@ const SignInPage = () => {
                     <div className="mb-6">
                         <ConnectButton />
                     </div>
-                    
-                      <p className="text-xs text-gray-500">
-                         By connecting your wallet, you agree to Kaisho&apos;s terms.
+
+                    <p className="text-xs text-gray-500">
+                        By connecting your wallet, you agree to Kaisho&apos;s terms.
                     </p>
-                  
                 </div>
             </div>
         </section>

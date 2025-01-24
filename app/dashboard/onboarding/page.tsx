@@ -9,13 +9,11 @@ import { User, ImageIcon, UploadIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { SuiClient, getFullnodeUrl } from '@mysten/sui/client';
-import { useSignAndExecuteTransaction, useCurrentAccount, useSuiClientQuery } from '@mysten/dapp-kit';
+import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
-
-
-const packageObjectId = process.env.NEXT_PUBLIC_SUI_PACKAGE_ID ?? '0xf3c022319d87c668287e709d58c5c23486c4a0cd7d92851c41a447a814f51a64';
-const KaiShoObjectId = process.env.NEXT_PUBLIC_POOL_OBJECT_ID ?? '0xa9ac2dd0b8b0f4bea402004108ec3da917ba42d3c46f6681b95bebbdd3de3289';
-
+import { useRouter } from "next/navigation";
+import { generateAddUserMoveCall } from "@/utils/moveCalls";
+import { toast } from "react-toastify";
 
 const Onboarding = () => {
     const [username, setUsername] = useState("");
@@ -28,133 +26,109 @@ const Onboarding = () => {
     const [suiClient, setSuiClient] = useState<SuiClient | null>(null);
     const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
     const account = useCurrentAccount();
-    const { data: suipayObject, isLoading: isSuipayLoading } = useSuiClientQuery('getObject', {
-        id: KaiShoObjectId,
-        options: {
-            showContent: true,
-        }
-    });
-    useEffect(() => {
-        console.log("object: ", suipayObject);
-        if (suipayObject && suipayObject.data && suipayObject.data.content) {
-            const content = suipayObject.data.content;
-            if (content.dataType === 'moveObject' && content.type === `${packageObjectId}::suipay::Suipay`) {
-                const fields = content.fields as any;
-                console.log("Fields: ",fields);
-                if (fields.usernames && fields.addresses) {
-                    // setUsernames(fields.usernames);
-                    // setAddresses(fields.addresses);
-
-                }
-            }
-        }
-    }, [suipayObject]);
+    const router = useRouter();
     useEffect(() => {
         const client = new SuiClient({ url: getFullnodeUrl('testnet') });
         setSuiClient(client);
-        console.log(packageObjectId, KaiShoObjectId);
-
-        
     }, []);
 
-    
-
-
     const handleAddUserName = async () => {
-         if (usernameError) {
-             console.error("Username has errors. Cannot submit.");
+        if (usernameError) {
+            toast.error("Username has errors. Cannot submit.");
             return;
         }
 
         if (!username) {
-           setUsernameError("Username is required");
-           return;
+            setUsernameError("Username is required");
+            toast.error("Username is required");
+            return;
         }
 
         if (!account?.address) {
-            console.error("No account connected.");
+            toast.error("No account connected."); 
             return;
-          }
-
+        }
 
         setIsSubmitting(true);
+        const toastId = toast.loading("Submitting form...");
+
         try {
             if (!suiClient) {
-                console.error('Sui client not initialized');
+                toast.error("Sui client not initialized");
                 return;
             }
-            const txb = new TransactionBlock();
-            txb.moveCall({
-                 target: `${packageObjectId}::suipay::add_user`,
-                 arguments: [
-                     txb.pure(username), 
-                     txb.pure(account.address), 
-                     txb.object(KaiShoObjectId),
-                    txb.pure(imageUrl), 
-                ],
-            });
 
+            const txb = new TransactionBlock();
+            generateAddUserMoveCall(txb, username, imageUrl);
 
             const serializedTransaction = await txb.serialize();
             signAndExecuteTransaction(
                 {
-                    transaction: serializedTransaction, 
+                    transaction: serializedTransaction,
                 },
                 {
                     onSuccess: (result) => {
-                         console.log('Transaction success', result);
-                         alert("Form Submitted!");
+                        console.log('Transaction success', result);
+                        toast.success("Form submitted successfully!"); 
+                        router.push('/dashboard');
                     },
                     onError: (error) => {
                         console.error('Transaction Error:', error);
-                         alert("Transaction failed!");
+                        toast.error("Transaction failed!"); 
                     },
                     onSettled: () => {
-                        console.log('Transaction settled');
+                        toast.dismiss(toastId); 
                         setIsSubmitting(false);
                     }
                 },
             );
-
         } catch (error) {
-           console.error("Error during transaction:", error);
-           setIsSubmitting(false);
+            console.error("Error during transaction:", error);
+            toast.error("An unexpected error occurred. Please try again."); 
+            setIsSubmitting(false);
+            toast.dismiss(toastId); 
         }
     };
 
     const handleImageUpload = async (e: any) => {
         const file = e.target.files?.[0];
         if (!file) return;
-    
+
         setIsImageLoading(true);
+        const toastId = toast.loading("Uploading image..."); 
+
         try {
-             const reader = new FileReader();
-             reader.onload = (event) => {
-                 if (event.target && event.target.result) {
-                     setImageUrl(event.target.result as string);
-                     setPreviewImage(event.target.result as string);
-                 }
-                 setIsImageLoading(false);
-             };
-                reader.onerror = () => {
-                 setIsImageLoading(false);
-                console.error("Error reading the file.");
-             };
-            reader.readAsDataURL(file);
-         } catch (error) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                if (event.target && event.target.result) {
+                    setImageUrl(event.target.result as string);
+                    setPreviewImage(event.target.result as string);
+                    toast.success("Image uploaded successfully!"); 
+                }
                 setIsImageLoading(false);
-                console.error("Error uploading the file", error);
-         }
+                toast.dismiss(toastId); 
+            };
+            reader.onerror = () => {
+                setIsImageLoading(false);
+                toast.error("Error reading the file."); 
+                toast.dismiss(toastId);
+            };
+            reader.readAsDataURL(file);
+        } catch (error) {
+            setIsImageLoading(false);
+            toast.error("Error uploading the file"); 
+            toast.dismiss(toastId); 
+        }
     };
 
     const handleImageUrlChange = (e: any) => {
         const url = e.target.value;
-         setImageUrl(url);
-            if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
-               setPreviewImage(url);
-            } else {
-                setPreviewImage(null);
-             }
+        setImageUrl(url);
+        if (url && (url.startsWith("http://") || url.startsWith("https://"))) {
+            setPreviewImage(url);
+        } else {
+            setPreviewImage(null);
+        }
     };
 
     const handleOpenFileDialog = () => {
@@ -175,7 +149,6 @@ const Onboarding = () => {
         }
         return "";
     };
-
 
     useEffect(() => {
         setUsernameError(validateUsername(username));

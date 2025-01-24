@@ -14,16 +14,16 @@ const {networkConfig} = createNetworkConfig({
   testnet: { url: getFullnodeUrl('testnet') },
 });
 
-export function DappKitProvider({ children }: Props) {
+export function DappKitPaymentProvider({ children }: Props) {
     return (
         <QueryClientProvider client={queryClient}>
             <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
                 <WalletProvider autoConnect>
-                    <OnChainDataProvider>
-                        {children}
-                        <ToastContainer />
-                    </OnChainDataProvider>
-                    </WalletProvider>
+                        <OnChainDataProvider>
+                            {children}
+                            <ToastContainer />
+                        </OnChainDataProvider>
+                    </WalletProvider >
             </SuiClientProvider>
         </QueryClientProvider>
     );
