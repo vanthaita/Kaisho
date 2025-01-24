@@ -2,8 +2,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { createContext, useContext, useState, useCallback, ReactNode, useEffect } from 'react';
 import { useSuiClientQuery } from '@mysten/dapp-kit';
+import { KAISHO_PAY_ID } from '@/constant/config';
 
-const KaiShoObjectId = process.env.NEXT_PUBLIC_SUI_PAY_ID ?? '';
+const KaiShoObjectId = KAISHO_PAY_ID ?? ''
 interface PaymentLinkData {
     id: string;
     amount: number;

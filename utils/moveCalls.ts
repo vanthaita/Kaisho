@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { KAISHO_PAY_ID, PACKAGE_ID } from '@/constant/config';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 
-const packageObjectId = process.env.NEXT_PUBLIC_PACKAGE_ID ?? '';
-const KaiShoObjectId = process.env.NEXT_PUBLIC_SUI_PAY_ID ?? '';
+const packageObjectId = PACKAGE_ID ?? '';
+const KaiShoObjectId = KAISHO_PAY_ID ?? ''
+
 
 export const generateAddUserMoveCall = (
     txb: TransactionBlock,

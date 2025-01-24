@@ -21,6 +21,7 @@ import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { generateApprovePaymentLink } from '@/utils/moveCalls';
 import { CheckCircle, Copy, Loader2, ShieldCheck, Wallet, XCircle } from 'lucide-react';
 import axios from 'axios';
+import { KAISHO_PAY_ID } from '@/constant/config';
 interface PriceData {
   symbol: string;
   price: string;
@@ -32,7 +33,8 @@ const fetchSUIUSDTPrice = async (): Promise<PriceData> => {
   return response.data;
 };
 
-const KaiShoObjectId = process.env.NEXT_PUBLIC_SUI_PAY_ID ?? '';
+const KaiShoObjectId = KAISHO_PAY_ID ?? ''
+
 
 interface PaymentInfo {
   amount: number;
