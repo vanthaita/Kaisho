@@ -1,4 +1,4 @@
-# Kaisho Pay(https://kaisho.vercel.app/)
+# Kaisho Pay
 
 **Seamless Web3 Payments for Everyone**
 
