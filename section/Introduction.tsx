@@ -1,38 +1,36 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @next/next/no-img-element */
 import Tag from "@/components/Tag";
-import { NetworkIcon } from '@web3icons/react';
 import { FC } from 'react';
 
 const text = `You're navigating the complexities of Web3 payments, but traditional methods are slow, expensive, and difficult to integrate.`;
 
 interface Blockchain {
     name: string;
-    icon: React.ReactNode;
-    img?: string;
+    img: string;
 }
 
 
 const blockchains: { EVM: Blockchain[], NonEVM: Blockchain[] } = {
     EVM: [
-        { name: "Ethereum", icon: <NetworkIcon network="ethereum" variant="mono" size={40} />, img: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" },
-        // { name: "Polygon", icon: <NetworkIcon network="polygon" variant="mono" size={40} />, img: "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png" },
-        // { name: "BNB Chain", icon: <NetworkIcon network="binance-smart-chain" variant="mono" size={40} />, img: "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png" },
-        // { name: "Avalanche", icon: <NetworkIcon network="avalanche" variant="mono" size={40} />, img: "https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png" }
+        // { name: "Ethereum", img: "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png" },
+        // { name: "Polygon", img: "https://s2.coinmarketcap.com/static/img/coins/64x64/3890.png" },
+        // { name: "BNB Chain", img: "https://s2.coinmarketcap.com/static/img/coins/64x64/1839.png" },
+        // { name: "Avalanche", img: "https://s2.coinmarketcap.com/static/img/coins/64x64/5805.png" }
     ],
     NonEVM: [
-        { name: "Sui Network", icon: <NetworkIcon network="sui" variant="mono" size={40} />, img: "https://s2.coinmarketcap.com/static/img/coins/64x64/20947.png" },
-        { name: "Aptos", icon: <NetworkIcon network="aptos" variant="mono" size={40} />, img: "https://s2.coinmarketcap.com/static/img/coins/64x64/21794.png" },
-        { name: "Near", icon: <NetworkIcon network="near-protocol" variant="mono" size={40} />, img: "https://s2.coinmarketcap.com/static/img/coins/64x64/6707.png" },
-        { name: "Solana", icon: <NetworkIcon network="solana" variant="mono" size={40} />, img: "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png" }
+        { name: "Sui Network", img: "https://s2.coinmarketcap.com/static/img/coins/64x64/20947.png" },
+        { name: "Aptos", img: "https://s2.coinmarketcap.com/static/img/coins/64x64/21794.png" },
+        { name: "Near", img: "https://s2.coinmarketcap.com/static/img/coins/64x64/6535.png" },
+        { name: "Solana", img: "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png" }
     ]
 };
 
-const NetworkItem: FC<Blockchain> = ({ name, icon, img }) => (
+const NetworkItem: FC<Blockchain> = ({ name, img }) => (
     <div
         className=" flex flex-col items-center transition-all duration-300 cursor-pointer p-4"
     >
-        {icon}
+       <img src={img} alt={name} className="w-10 h-10 object-contain"/>
         <p className="text-lg font-semibold mt-2">{name}</p>
     </div>
 );
@@ -57,7 +55,7 @@ export default function Introduction() {
                     That&apos;s why we built Kaisho.
                 </span>
                 <div className="mt-16 flex justify-center"> 
-                   <div className="flex gap-6">
+                    <div className="flex gap-6">
                         {blockchains.EVM.map((network, index) => (
                             <NetworkItem key={index} {...network} />
                         ))}

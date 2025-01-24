@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { DappKitProvider } from "@/_providers/DappKitProvider";
-import { DashBoardProvider } from "@/_providers/Dashboard.provider";
+import { DappKitPaymentProvider } from "@/_providers/DappKitPaymentProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -17,7 +16,8 @@ export const metadata: Metadata = {
   description:
     "Secure blockchain payment link powered by Kaisho Pay.",
 };
-export default function DashBoardLayout({
+
+export default function PayPageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -25,13 +25,11 @@ export default function DashBoardLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased tex-white bg-neutral-950 scroll-custom`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased tex-white bg-neutral-950 `}
       >
-        <DappKitProvider>
-            <DashBoardProvider>
-              {children}
-            </DashBoardProvider>
-        </DappKitProvider>
+        <DappKitPaymentProvider>
+          {children}
+        </DappKitPaymentProvider>
       </body>
     </html>
   );
