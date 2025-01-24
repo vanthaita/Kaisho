@@ -23,6 +23,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import axios from 'axios';
+
 interface RecentActivity {
     action: number[] | string;
     amount: string; 
@@ -70,54 +71,54 @@ const DepositWithdrawModal = ({
   onSubmit: (amount: string) => void;
   loading: boolean;
 }) => {
-  const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(amount);
-  };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        onSubmit(amount);
+    };
 
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          className={`flex items-center gap-2 rounded-xl ${
-            type === 'deposit'
-              ? 'bg-lime-400 text-gray-900 hover:bg-lime-500'
-              : 'bg-red-400 text-gray-900 hover:bg-red-500'
-          }`}
-        >
-          {type === 'deposit' ? <Plus size={16} /> : <Minus size={16} />}
-          {type === 'deposit' ? 'Deposit' : 'Withdraw'}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="bg-neutral-950 border-while/20 rounded-xl">
-        <DialogHeader>
-          <DialogTitle className="text-white">
-            {type === 'deposit' ? 'Deposit SUI' : 'Withdraw SUI'}
-          </DialogTitle>
-        </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4">
-            <Input
-                type="number"
-                placeholder={`Enter amount to ${type}`}
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className="bg-gray-700 text-white border-gray-600 focus:border-lime-400 focus:ring-lime-400"
-            />
+    return (
+        <Dialog>
+        <DialogTrigger asChild>
             <Button
-                type="submit"
-                className="w-full bg-lime-400 text-gray-900 hover:bg-lime-500"
-                disabled={loading}
+            className={`flex items-center gap-2 rounded-xl ${
+                type === 'deposit'
+                ? 'bg-lime-400 text-gray-900 hover:bg-lime-500'
+                : 'bg-red-400 text-gray-900 hover:bg-red-500'
+            }`}
             >
-                {loading ? (
-                <Loader2 size={16} className="animate-spin" />
-                ) : (
-                type === 'deposit' ? 'Deposit' : 'Withdraw'
-                )}
+            {type === 'deposit' ? <Plus size={16} /> : <Minus size={16} />}
+            {type === 'deposit' ? 'Deposit' : 'Withdraw'}
             </Button>
-            </form>
-      </DialogContent>
+        </DialogTrigger>
+        <DialogContent className="bg-neutral-950 border-while/20 rounded-xl">
+            <DialogHeader>
+            <DialogTitle className="text-white">
+                {type === 'deposit' ? 'Deposit SUI' : 'Withdraw SUI'}
+            </DialogTitle>
+            </DialogHeader>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                <Input
+                    type="number"
+                    placeholder={`Enter amount to ${type}`}
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="bg-gray-700 text-white border-gray-600 focus:border-lime-400 focus:ring-lime-400"
+                />
+                <Button
+                    type="submit"
+                    className="w-full bg-lime-400 text-gray-900 hover:bg-lime-500"
+                    disabled={loading}
+                >
+                    {loading ? (
+                    <Loader2 size={16} className="animate-spin" />
+                    ) : (
+                    type === 'deposit' ? 'Deposit' : 'Withdraw'
+                    )}
+                </Button>
+                </form>
+        </DialogContent>
     </Dialog>
   );
 };
@@ -137,7 +138,9 @@ const DashboardPage = () => {
     const [suiPrice, setSuiPrice] = useState<string | null>(null);
     const [priceLoading, setPriceLoading] = useState(true);
     const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
+    
     useEffect(() => {
+
         const fetchPrice = async () => {
         try {
             const priceData = await fetchSUIUSDTPrice();

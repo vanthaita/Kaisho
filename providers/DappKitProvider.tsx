@@ -15,6 +15,7 @@ const {networkConfig} = createNetworkConfig({
 });
 
 export function DappKitProvider({ children }: Props) {
+
     return (
         <QueryClientProvider client={queryClient}>
             <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">

@@ -30,7 +30,7 @@ const SignInPage = () => {
 
             <div className="container max-w-3xl mx-auto px-6 py-8 text-white">
                 <div className="flex items-center justify-center mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold ml-4">Kaisho Pay</h1>
+                    <h1 className="text-3xl md:text-5xl font-bold ml-4 text-lime-400">Kaisho Pay</h1>
                 </div>
 
                 <div className="border border-white/20 text-center rounded-xl p-8 md:p-10 shadow-lg">

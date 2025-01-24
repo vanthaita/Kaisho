@@ -4,7 +4,7 @@ import Sidebar from '@/components/dashboard/Sidebar';
 import Navbar from '@/components/dashboard/Navbar';
 import { usePathname, useRouter } from 'next/navigation';
 import { useOnChainDataContext } from '@/app/context/OnChainDataContext';
-import { useCurrentAccount } from '@mysten/dapp-kit';
+import { useCurrentAccount, useCurrentWallet } from '@mysten/dapp-kit';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -19,26 +19,30 @@ export function DashBoardProvider({ children }: Props) {
     const account = useCurrentAccount();
     const hiddenPaths = ["/dashboard/sign-in", "/dashboard/onboarding"];
     const isHiddenPage = hiddenPaths.includes(pathname);
-    
+    const { connectionStatus } = useCurrentWallet();
     const [isMobile, setIsMobile] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+    useEffect(() => {
+        if (connectionStatus !== 'connected' && !isHiddenPage) {
+            router.push('/dashboard/sign-in');
+        }
+    }, [connectionStatus, isHiddenPage, router]);
 
     useEffect(() => {
         const checkMobile = () => {
             const mobile = window.innerWidth < 768;
             setIsMobile(mobile);
-            setIsSidebarOpen(!mobile); 
+            setIsSidebarOpen(!mobile);
         };
-        
+
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
     useEffect(() => {
-        document.body.style.overflow = isMobile && isSidebarOpen 
-            ? 'hidden' 
-            : 'auto';
+        document.body.style.overflow = isMobile && isSidebarOpen ? 'hidden' : 'auto';
     }, [isSidebarOpen, isMobile]);
 
     useEffect(() => {
