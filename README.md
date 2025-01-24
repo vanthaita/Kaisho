@@ -1,6 +1,36 @@
 # Kaisho Pay
 
-![Kaisho Pay Logo](https://kaisho.vercel.app/)
+<svg 
+    width="32" 
+    height="32" 
+    viewBox="0 0 160 160" 
+    fill="none" 
+    className="transition-transform hover:rotate-[15deg]"
+>
+    <circle cx="80" cy="80" r="80" fill="url(#paint0_linear_1_2)"/>
+    <path d="M80 28L108 60H100.8L80 37.04L59.2 60H52L80 28Z" fill="white"/>
+    <path d="M80 132L52 100H59.2L80 122.96L100.8 100H108L80 132Z" fill="white"/>
+    <path d="M68 64H92V96H68V64Z" fill="white"/>
+    <path d="M76 72H84V88H76V72Z" fill="url(#paint1_linear_1_2)"/>
+    <path d="M56 48L40 64H56V48Z" fill="#A3F9B9"/>
+    <path d="M104 48L120 64H104V48Z" fill="#A3F9B9"/>
+    <path d="M56 112L40 96H56V112Z" fill="#A3F9B9"/>
+    <path d="M104 112L120 96H104V112Z" fill="#A3F9B9"/>
+    <defs>
+        <linearGradient id="paint0_linear_1_2" x1="80" y1="0" x2="80" y2="160" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#6FEB87"/>
+            <stop offset="1" stopColor="#2BDD5B"/>
+        </linearGradient>
+        <linearGradient id="paint1_linear_1_2" x1="80" y1="72" x2="80" y2="88" gradientUnits="userSpaceOnUse">
+            <stop stopColor="#2BDD5B"/>
+            <stop offset="1" stopColor="#1A9334"/>
+        </linearGradient>
+        <clipPath id="clip0_1_2">
+            <rect width="160" height="160" fill="white"/>
+        </clipPath>
+    </defs>
+</svg>
+(https://kaisho.vercel.app/)
 
 **Seamless Web3 Payments for Everyone**
 
