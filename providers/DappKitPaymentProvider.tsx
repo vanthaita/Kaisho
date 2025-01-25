@@ -4,7 +4,7 @@ import { createNetworkConfig, SuiClientProvider, WalletProvider } from '@mysten/
 import { getFullnodeUrl } from '@mysten/sui/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@mysten/dapp-kit/dist/index.css';
-import { OnChainDataProvider } from '@/app/context/OnChainDataContext';
+import { OnChainDataProvider } from '@/context/OnChainDataContext';
 import { ToastContainer } from 'react-toastify';
 interface Props {
     children: React.ReactNode;

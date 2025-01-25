@@ -3,7 +3,7 @@
 import Sidebar from '@/components/dashboard/Sidebar';
 import Navbar from '@/components/dashboard/Navbar';
 import { usePathname, useRouter } from 'next/navigation';
-import { useOnChainDataContext } from '@/app/context/OnChainDataContext';
+import { useOnChainDataContext } from '@/context/OnChainDataContext';
 import { useCurrentAccount, useCurrentWallet } from '@mysten/dapp-kit';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';

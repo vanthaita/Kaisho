@@ -14,7 +14,7 @@ import mistToSui from '@/utils/mist';
 import { Input } from '@/components/ui/input';
 import { generateDepositMoveCall, generateWithdrawMoveCall, generateApproveMoveCall } from '@/utils/moveCalls';
 import { toast } from 'react-toastify';
-import { useOnChainDataContext } from '@/app/context/OnChainDataContext';
+import { useOnChainDataContext } from '@/context/OnChainDataContext';
 import {
   Dialog,
   DialogContent,

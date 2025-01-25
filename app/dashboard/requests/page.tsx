@@ -4,8 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { generateCreateRequestMoveCall, generateApproveMoveCall } from '@/utils/moveCalls';
-import { useOnChainDataContext } from '@/app/context/OnChainDataContext';
-import { toast } from 'react-toastify';
+import { useOnChainDataContext } from '@/context/OnChainDataContext';
+import { toast } from 'react-toastify'
 import { Button } from '@/components/ui/button';
 import { ArrowUpRight, ArrowDownLeft, Loader2 } from 'lucide-react';
 import { shortenEthAddress } from '@/utils/shortenEthAddress';
