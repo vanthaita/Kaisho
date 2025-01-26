@@ -7,7 +7,7 @@ import { useSignAndExecuteTransaction, useCurrentAccount } from '@mysten/dapp-ki
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { generateCreatePaymentLinkMoveCall } from '@/utils/moveCalls';
 import { toast } from 'react-toastify';
-import { useOnChainDataContext } from '@/app/context/OnChainDataContext';
+import { useOnChainDataContext } from '@/context/OnChainDataContext';
 import { FaCopy, FaLink,FaFacebook, FaTwitter, FaLinkedin, FaDownload } from 'react-icons/fa';
 import QRCode from 'react-qr-code';
 import html2canvas from 'html2canvas'; 
@@ -127,7 +127,7 @@ const LinkPage = () => {
     window.open(url, '_blank');
   };
   return (
-    <section className="p-6 bg-neutral-950 min-h-screen">
+    <section className="p-6 min-h-screen">
       <h2 className="text-2xl font-bold text-white mb-8">Create Payment Link</h2>
 
       <div className="flex flex-col md:flex-row gap-4 mb-12">

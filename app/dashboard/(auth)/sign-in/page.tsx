@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { ConnectButton, useCurrentAccount, useCurrentWallet } from '@mysten/dapp-kit';
 import { useRouter } from 'next/navigation';
-import { useOnChainDataContext } from '@/app/context/OnChainDataContext';
+import { useOnChainDataContext } from '@/context/OnChainDataContext';
 
 const SignInPage = () => {
     const router = useRouter();
