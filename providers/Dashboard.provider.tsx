@@ -7,6 +7,7 @@ import { useOnChainDataContext } from '@/context/OnChainDataContext';
 import { useCurrentAccount, useCurrentWallet } from '@mysten/dapp-kit';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Loader } from '@/components/ui/loader';
 
 interface Props {
     children: React.ReactNode;
@@ -22,12 +23,7 @@ export function DashBoardProvider({ children }: Props) {
     const { connectionStatus } = useCurrentWallet();
     const [isMobile, setIsMobile] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
-    useEffect(() => {
-        if (connectionStatus !== 'connected' && !isHiddenPage) {
-            router.push('/dashboard/sign-in');
-        }
-    }, [connectionStatus, isHiddenPage, router]);
+    const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -46,11 +42,30 @@ export function DashBoardProvider({ children }: Props) {
     }, [isSidebarOpen, isMobile]);
 
     useEffect(() => {
-        if (account?.address && isHiddenPage) {
-            const userData = getUserData(account.address);
-            userData && router.push('/dashboard');
-        }
-    }, [account, pathname, getUserData, router, isHiddenPage]);
+        const checkAuth = async () => {
+            if (connectionStatus === 'connected' && account?.address) {
+                const userData = getUserData(account.address);
+                if (isHiddenPage) {
+                    userData ? router.replace('/dashboard') : router.replace('/dashboard/onboarding');
+                }
+                setIsCheckingAuth(false);
+            } else if (connectionStatus === 'disconnected' && !isHiddenPage) {
+                router.replace('/dashboard/sign-in');
+                setIsCheckingAuth(false);
+            } else {
+                setIsCheckingAuth(false);
+            }
+        };
+
+        const timer = setTimeout(checkAuth, 300);
+        return () => clearTimeout(timer);
+    }, [connectionStatus, account, isHiddenPage, router, getUserData]);
+
+    if (isCheckingAuth) {
+        return <div className="h-screen w-full flex items-center justify-center">
+            <Loader />
+        </div>;
+    }
 
     return (
         <section className="h-screen flex">

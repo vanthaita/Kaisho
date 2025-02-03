@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { DappKitProvider } from "@/providers/DappKitProvider";
 import { DashBoardProvider } from "@/providers/Dashboard.provider";
+import { Suspense } from "react";
+import { Loader } from "@/components/ui/loader";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,9 +30,11 @@ export default function DashBoardLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased tex-white bg-neutral-950 scroll-custom`}
       >
         <DappKitProvider>
-            <DashBoardProvider>
-              {children}
-            </DashBoardProvider>
+            <Suspense fallback={<Loader />}>
+              <DashBoardProvider>
+                {children}
+              </DashBoardProvider>
+            </Suspense>
         </DappKitProvider>
       </body>
     </html>

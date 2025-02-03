@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCurrentAccount, useCurrentWallet, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
 import { Button } from '@/components/ui/button';
-import { Plus, Minus, Wallet, ArrowUpRight, ArrowDownLeft, Loader2 } from 'lucide-react';
+import { Plus, Minus, Wallet, ArrowUpRight, ArrowDownLeft, Loader2, Copy } from 'lucide-react';
 import { shortenEthAddress } from '@/utils/shortenEthAddress';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { getFullnodeUrl, SuiClient } from '@mysten/sui.js/client';
@@ -23,6 +23,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import axios from 'axios';
+import { Loader } from '@/components/ui/loader';
 
 interface RecentActivity {
     action: number[] | string;
@@ -140,7 +141,6 @@ const DashboardPage = () => {
     const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
     
     useEffect(() => {
-
         const fetchPrice = async () => {
         try {
             const priceData = await fetchSUIUSDTPrice();
@@ -272,50 +272,6 @@ const DashboardPage = () => {
         toast.dismiss(toastId);
         }
     };
-
-    const handleApprove = async (requestId: number) => {
-        if (!suiClient || !account?.address) {
-        toast.error('Sui client not initialized or no account connected');
-        return;
-        }
-        setApprovingRequest(requestId);
-        const toastId = toast.loading('Approving payment...');
-        try {
-        const txb = new TransactionBlock();
-        generateApproveMoveCall(txb, data.username, requestId);
-        const serializedTransaction = await txb.serialize();
-        signAndExecuteTransaction(
-            {
-            transaction: serializedTransaction,
-            },
-            {
-            onSuccess: (result) => {
-                console.log('Transaction success', result);
-                toast.success('Payment approved successfully!');
-                updateRefreshCounter();
-            },
-            onError: (error) => {
-                console.error('Transaction Error:', error);
-                toast.error('Failed to approve payment.');
-            },
-            onSettled: () => {
-                setApprovingRequest(null);
-                toast.dismiss(toastId);
-            },
-            }
-        );
-        } catch (error) {
-        console.error('Error approving payment:', error);
-        toast.error('Failed to approve payment.');
-        setApprovingRequest(null);
-        toast.dismiss(toastId);
-        }
-    };
-
-    const handleReject = (requestId: number) => {
-        toast.success(`Request ${requestId} rejected successfully!`);
-        console.log(`Rejecting request with ID: ${requestId}`);
-    };
     const getActionString = (action: number[] | string): string => {
         if (typeof action === 'string') {
             return action;
@@ -325,7 +281,7 @@ const DashboardPage = () => {
     return (
         <section className="space-y-6 p-6 bg-neutral-950 min-h-screen">
             {loading ? (
-                <div className="text-center text-white">Loading...</div>
+                <Loader />
             ) : (
                 <>
                 <Card className="border-none max-w-lg">
@@ -363,17 +319,17 @@ const DashboardPage = () => {
                                 <p className="text-sm text-white/80">Wallet Address</p>
                                 <p className="font-medium text-white text-sm flex items-center">
                                 {shortenEthAddress(account?.address || '0x0000...0000')}
-                                <span
-                                    className="ml-2 border px-2 rounded-xl text-neutral-500 hover:bg-neutral-800 hover:text-white cursor-pointer transition-all"
+                                <button 
                                     onClick={() => {
-                                    if (account?.address) {
-                                        navigator.clipboard.writeText(account.address);
-                                        toast.success('Address copied to clipboard!');
-                                    }
-                                    }}
+                                        if (account?.address) {
+                                            navigator.clipboard.writeText(account.address);
+                                            toast.success('Address copied to clipboard!');
+                                        }
+                                        }}
+                                    className="text-neutral-500 hover:text-lime-500 transition-colors ml-3 mt-0.5" 
                                 >
-                                    copy
-                                </span>
+                                    <Copy className="w-4 h-4" />
+                                </button>
                                 </p>
                                 </div>
                                 <div className="flex items-center gap-2">
